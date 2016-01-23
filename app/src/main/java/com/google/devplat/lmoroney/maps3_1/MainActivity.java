@@ -34,27 +34,27 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Parse.enableLocalDatastore(this);
-//        Parse.initialize(this);
-//        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
-//        startActivityForResult(builder.build(), 0);
-//
-//        Party party_data[] = new Party[]
-//                {
-//                        new Party("Party1", "NUS\n9:31pm"),
-//                        new Party("Party2", "NUS\n9:32pm"),
-//                        new Party("Party1", "NUS\n9:31pm"),
-//                        new Party("Party1", "NUS\n9:31pm"),
-//                        new Party("Party1", "NUS\n9:31pm")
-//                };
-//
-//        PartyAdapter adapter = new PartyAdapter(this,
-//                R.layout.main_list, party_data);
-//
-//
-//        ListView listView1 = (ListView)findViewById(R.id.party_listview);
-//
-//        listView1.setAdapter(adapter);
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this);
+        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+        startActivityForResult(builder.build(), 0);
+
+        Party party_data[] = new Party[]
+                {
+                        new Party("Party1", "NUS\n9:31pm"),
+                        new Party("Party2", "NUS\n9:32pm"),
+                        new Party("Party1", "NUS\n9:31pm"),
+                        new Party("Party1", "NUS\n9:31pm"),
+                        new Party("Party1", "NUS\n9:31pm")
+                };
+
+        PartyAdapter adapter = new PartyAdapter(this,
+                R.layout.main_list, party_data);
+
+
+        ListView listView1 = (ListView)findViewById(R.id.party_listview);
+
+        listView1.setAdapter(adapter);
     }
 
     @Override
