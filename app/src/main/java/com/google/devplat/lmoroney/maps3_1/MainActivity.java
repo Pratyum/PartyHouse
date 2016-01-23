@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
             System.exit(0);
             return true;
         }else if (id == R.id.add_friend){
-            Intent intent = new Intent(this, AddFriends.class);
+            Intent intent = new Intent(this, PartySetting.class);
             startActivity(intent);
             return true;
         }
