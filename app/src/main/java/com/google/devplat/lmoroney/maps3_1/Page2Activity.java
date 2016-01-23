@@ -1,5 +1,6 @@
 package com.google.devplat.lmoroney.maps3_1;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,9 +9,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.android.gms.appindexing.Action;
@@ -61,13 +64,24 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
         ListView listView = (ListView) findViewById(R.id.listview_logs);
 
         listView.setAdapter(mLogsAdapter);
+        LinearLayout mainLayout;
+
+// Get your layout set up, this is just an example
+       // mainLayout = (LinearLayout)findViewById(R.id.linear_pg2);
+
+// Then just use the following:
+        //InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        //imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
 
         Button submit = (Button) findViewById(R.id.bt_submit);
-
+        final EditText address_et = (EditText)findViewById(R.id.et_address);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String address = ((EditText) findViewById(R.id.et_address)).getText().toString();
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(address_et.getWindowToken(), 0);
+                String address = address_et.getText().toString();
                 FetchLocationTask locationTask = new FetchLocationTask();
                 locationTask.execute(address);
             }
