@@ -52,12 +52,19 @@ public class AddFriends extends ActionBarActivity {
                                         if (friends_ar == null){
                                             friends_ar = new ArrayList<ParseUser>();
                                         }
+                                        else {
+                                            if (friends_ar.contains(objects.get(0))) {
+                                                Toast toast = Toast.makeText(getApplicationContext(), "Already There!", Toast.LENGTH_SHORT);
+                                                toast.show();
+                                            } else {
 //                                        Log.d(LOG_TAG,friends_ar.toString());
-                                        friends_ar.add(objects.get(0));
-                                        user.put("friends", friends_ar);
-                                        user.saveInBackground();
-                                        Toast toast = Toast.makeText(getApplicationContext(),"Friend Added!",Toast.LENGTH_SHORT);
-                                        toast.show();
+                                                friends_ar.add(objects.get(0));
+                                                user.put("friends", friends_ar);
+                                                user.saveInBackground();
+                                                Toast toast = Toast.makeText(getApplicationContext(), "Friend Added!", Toast.LENGTH_SHORT);
+                                                toast.show();
+                                            }
+                                        }
                                     }
                                 });
                                 Log.d(LOG_TAG,objects.get(0).getUsername());
