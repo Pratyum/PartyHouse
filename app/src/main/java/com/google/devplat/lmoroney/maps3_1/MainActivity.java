@@ -1,4 +1,4 @@
-                                                                     /*
+/*
  * Copyright (C) 2015 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +30,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.Parse;
+import com.parse.ui.ParseLoginBuilder;
 
 
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback {
@@ -43,6 +45,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
+        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+        startActivityForResult(builder.build(), 0);
         Button btnMap = (Button) findViewById(R.id.btnMap);
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +104,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        else if (id== R.id.add_party){
             return true;
         }
 
