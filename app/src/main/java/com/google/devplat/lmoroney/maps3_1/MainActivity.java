@@ -15,21 +15,19 @@
  */
 package com.google.devplat.lmoroney.maps3_1;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.Parse;
 import com.parse.ui.ParseLoginBuilder;
 
@@ -103,13 +101,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.add_party) {
             return true;
         }
-        else if (id== R.id.add_party){
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }
