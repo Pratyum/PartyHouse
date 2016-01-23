@@ -19,7 +19,7 @@
         android:id="@+id/add_friend"
         android:orderInCategory="100"
         android:title="Add Friend"
-        android:icon="@drawable/ic_person_add_black_24dp"
+        android:icon="@drawable/ic_person_add_white_24dp"
         app:showAsAction="ifRoom" />
 
 
