@@ -14,13 +14,18 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class GuestListActivity extends ActionBarActivity {
 
-    private ArrayAdapter<String> mContactsAdapter;
     public LinearLayout linearList ;
     CheckBox checkBox;
     ArrayList<String> finalArray = new ArrayList<>();
@@ -30,15 +35,19 @@ public class GuestListActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_list);
+        Log.e("Party", "Hello");
+        ParseUser user = ParseUser.getCurrentUser();
+        Log.e("Party",user.toString());
+        ArrayList<String> Logs  = (ArrayList<String>) user.get("friends");
+//        String[] ContactsArray = {"Pratyum", "Shantanu", "Priyanshu", "Divyansh", "Varun", "Manav"};
 
-        String[] ContactsArray = {"Pratyum", "Shantanu", "Priyanshu", "Divyansh", "Varun", "Manav"};
-
-        ArrayList<String> Logs = new ArrayList<>(Arrays.asList(ContactsArray));
+//        ArrayList<String> Logs = new ArrayList<>(Arrays.asList(ContactsArray));
 
        // ArrayList<String> Logs = getIntent().getSerializableExtra("KEY");
 
 //        mContactsAdapter = new ArrayAdapter<>(this, R.layout.checkboxlist, R.id.friend_checkbox, Logs);
 //
+
       linearList = (LinearLayout) findViewById(R.id.linear_list);
 //        //listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 //
@@ -52,6 +61,14 @@ public class GuestListActivity extends ActionBarActivity {
             checkBox.setOnClickListener(getOnClickDo(checkBox));
             linearList.addView(checkBox);
         }
+
+        final Button confirm = (Button) findViewById(R.id.confirm_button);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirm(view);
+            }
+        });
     }
     View.OnClickListener getOnClickDo(final Button b)
     {
@@ -66,6 +83,31 @@ public class GuestListActivity extends ActionBarActivity {
             }
         };
     }
+
+    public void confirm(View view)
+    {
+        Log.d("Party", "Confirm Pressed");
+        String partyName = getIntent().getStringExtra("Party");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Party");
+        query.whereEqualTo("Name", partyName);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, com.parse.ParseException e) {
+                if (e == null) {
+                    Log.d("Party", "Confirm Pressed");
+                    String[] finalParse = new String[finalArray.size()];
+                    finalParse = finalArray.toArray(finalParse);
+                    objects.get(0).put("Members", finalArray);
+                    objects.get(0).saveInBackground();
+                    Intent intent = new Intent(getApplicationContext(), Page2Activity.class);
+                    intent.putExtra("KEY", finalArray);
+                    startActivity(intent);
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -75,26 +117,14 @@ public class GuestListActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == R.id.next_button) {
+            Intent intent = new Intent(this, Page2Activity.class); //Show all friends
+            startActivity(intent);
             return true;
-        }
+            }
+        // other menu select events may be present here
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void confirm(View view)
-    {
-        Intent intent = new Intent(this,Page2Activity.class);
-        intent.putExtra("KEY",finalArray);
-        startActivity(intent);
-
-
     }
 
 }

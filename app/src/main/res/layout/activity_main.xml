@@ -17,4 +17,14 @@
         android:id="@+id/party_listview">
     </ListView>
     </LinearLayout>
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        android:background="@drawable/circle"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_add_white_24dp" />
 </RelativeLayout>

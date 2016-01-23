@@ -3,6 +3,7 @@ package com.google.devplat.lmoroney.maps3_1;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,24 +48,24 @@ public class AddFriends extends ActionBarActivity {
                                 textView.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
+
                                         ParseUser user = ParseUser.getCurrentUser();
-                                        ArrayList<ParseUser> friends_ar = (ArrayList<ParseUser>) user.get("friends");
+                                        ArrayList<String> friends_ar = (ArrayList<String>) user.get("friends");
                                         if (friends_ar == null){
-                                            friends_ar = new ArrayList<ParseUser>();
+                                            friends_ar = new ArrayList<String>();
                                         }
-                                        else {
-                                            if (friends_ar.contains(objects.get(0))) {
+                                            if (friends_ar.contains(objects.get(0).get("name"))) {
                                                 Toast toast = Toast.makeText(getApplicationContext(), "Already There!", Toast.LENGTH_SHORT);
                                                 toast.show();
                                             } else {
 //                                        Log.d(LOG_TAG,friends_ar.toString());
-                                                friends_ar.add(objects.get(0));
+                                                friends_ar.add((String)objects.get(0).get("name"));
                                                 user.put("friends", friends_ar);
                                                 user.saveInBackground();
                                                 Toast toast = Toast.makeText(getApplicationContext(), "Friend Added!", Toast.LENGTH_SHORT);
                                                 toast.show();
                                             }
-                                        }
+
                                     }
                                 });
                                 Log.d(LOG_TAG,objects.get(0).getUsername());
@@ -80,5 +81,10 @@ public class AddFriends extends ActionBarActivity {
         });
 
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_add_friends, menu);
+        return true;
+    }
 }

@@ -124,9 +124,9 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.add_party) {
+        if (id == R.id.friends) {
             return true;
-        }
+            }
 
         return super.onOptionsItemSelected(item);
     }

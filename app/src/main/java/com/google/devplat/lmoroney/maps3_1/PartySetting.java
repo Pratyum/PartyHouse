@@ -2,6 +2,7 @@ package com.google.devplat.lmoroney.maps3_1;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +50,7 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
     private ArrayAdapter<String> mLogsAdapter;
     GoogleMap m_map;
     boolean mapReady = false;
+    ParseObject party = new ParseObject("Party");
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -125,9 +129,11 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.add_party) {
+        if (id == R.id.next_button) {
+            Intent intent = new Intent(this, GuestListActivity.class); //Show all friends
+            startActivity(intent);
             return true;
-        }
+            }
 
         return super.onOptionsItemSelected(item);
     }
@@ -289,7 +295,8 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
                         .title(((EditText) findViewById(R.id.address)).getText().toString())
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker));
                 m_map.addMarker(result_marker);
-
+                party.put("Name", ((EditText)findViewById(R.id.et_party_name)).getText().toString());
+                party.put("Venue", new ParseGeoPoint(result[0],result[1]));
             }
         }
     }
@@ -306,11 +313,16 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
 
     private void updateLabel() {
         Button dateText = (Button) findViewById(R.id.date_text);
-
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
         dateText.setText(sdf.format(myCalendar.getTime()));
+        //  TODO              party.put("Date",);
     }
 
+    public void saveParty(){
+        party.saveInBackground();
+        Intent intent = new Intent(getApplicationContext(),GuestListActivity.class);
+        intent.putExtra("Party", ((EditText) findViewById(R.id.et_party_name)).getText().toString());
+        startActivity(intent);
+    }
 }

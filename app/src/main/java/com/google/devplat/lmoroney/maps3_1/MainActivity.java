@@ -21,7 +21,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -53,8 +56,17 @@ public class MainActivity extends ActionBarActivity {
 
 
         ListView listView1 = (ListView)findViewById(R.id.party_listview);
-
         listView1.setAdapter(adapter);
+
+        ImageButton FAB = (ImageButton) findViewById(R.id.imageButton);
+        FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Hello World", Toast.LENGTH_SHORT).show();
+                }
+        });
+
     }
 
     @Override
@@ -83,22 +95,22 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.add_party) {
-            Intent intent = new Intent(this, GuestListActivity.class);
+        if (id == R.id.friends) {
+            Intent intent = new Intent(this, GuestListActivity.class); //Show all friends
             startActivity(intent);
             return true;
-        } else if (id == R.id.log_out) {
+            } else if (id == R.id.log_out) {
             ParseUser.logOut();
             ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
             startActivityForResult(builder.build(), 0);
             finish();
             System.exit(0);
             return true;
-        }else if (id == R.id.add_friend){
-            Intent intent = new Intent(this, PartySetting.class);
+            }else if (id == R.id.invite_friend){ //Add functionality for user not present.
+            Intent intent = new Intent(this, AddFriends.class);
             startActivity(intent);
             return true;
-        }
+            }
 
         return super.onOptionsItemSelected(item);
     }
