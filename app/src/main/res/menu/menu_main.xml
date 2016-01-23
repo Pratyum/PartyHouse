@@ -9,11 +9,19 @@
         android:title="add_party"
         android:icon="@drawable/ic_add_white_24dp"
         app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/log_out"
         android:orderInCategory="100"
         android:title="Log Out"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/add_friend"
+        android:orderInCategory="100"
+        android:title="Add Friend"
+        android:icon="@drawable/ic_person_add_black_24dp"
+        app:showAsAction="ifRoom" />
+
 
 
 </menu>

@@ -101,6 +101,10 @@ public class MainActivity extends ActionBarActivity {
             finish();
             System.exit(0);
             return true;
+        }else if (id == R.id.add_friend){
+            Intent intent = new Intent(this, AddFriends.class);
+            startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

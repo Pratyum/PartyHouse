@@ -7,7 +7,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -38,7 +38,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBBLEvI_xQ8HsW6I7x6qgdsCzP6msjMQd4" />
+            android:value="AIzaSyDJxDFlenXqRYZVM_RedEKZYN3T6WX3DYE" />
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="63QItxuHIKDmkgetjy11bZiBQgyFU7mwuL1ODRKF" />
@@ -48,12 +48,10 @@
 
         <activity
             android:name=".Page2Activity"
-            android:label="@string/title_activity_page2">
-
-
-
-
-        </activity>
+            android:label="@string/title_activity_page2"></activity>
+        <activity
+            android:name=".AddFriends"
+            android:label="@string/title_activity_add_friends"></activity>
     </application>
 
 </manifest>

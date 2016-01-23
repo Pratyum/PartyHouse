@@ -64,14 +64,6 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
         ListView listView = (ListView) findViewById(R.id.listview_logs);
 
         listView.setAdapter(mLogsAdapter);
-        LinearLayout mainLayout;
-
-// Get your layout set up, this is just an example
-       // mainLayout = (LinearLayout)findViewById(R.id.linear_pg2);
-
-// Then just use the following:
-        //InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        //imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
 
         Button submit = (Button) findViewById(R.id.bt_submit);
         final EditText address_et = (EditText)findViewById(R.id.et_address);
