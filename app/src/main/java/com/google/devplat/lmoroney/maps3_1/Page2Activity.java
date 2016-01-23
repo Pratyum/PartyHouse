@@ -1,8 +1,10 @@
 package com.google.devplat.lmoroney.maps3_1;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,20 +16,37 @@ import android.widget.ListView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Page2Activity extends ActionBarActivity {
+public class Page2Activity extends ActionBarActivity implements OnMapReadyCallback {
     private ArrayAdapter<String> mLogsAdapter;
+    GoogleMap m_map;
+    boolean mapReady=false;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-
+    private final String LOG_TAG = Page2Activity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +67,9 @@ public class Page2Activity extends ActionBarActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText address = (EditText) findViewById(R.id.et_address);
-                String address_string = address.getText().toString();
-                address_string.replaceAll(" ", "+");
-                address_string.replaceAll(",", ",+");
-                HttpURLConnection urlConnection = null;
-
+                String address = ((EditText) findViewById(R.id.et_address)).getText().toString();
+                FetchLocationTask locationTask = new FetchLocationTask();
+                locationTask.execute(address);
             }
         });
 
@@ -79,6 +95,9 @@ public class Page2Activity extends ActionBarActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -152,5 +171,119 @@ public class Page2Activity extends ActionBarActivity {
     void venueLongClick(View view)
     {
         //Choose location from another activity
+    }
+
+    private double[] getLocationDataFromJson(String JsonStr)
+            throws JSONException {
+        Log.d(LOG_TAG,JsonStr);
+        // These are the names of the JSON objects that need to be extracted.
+        final String OWM_RESULTS = "results";
+        final String OWM_GEOMETRY = "geometry";
+        final String OWM_LOCATION = "location";
+
+        JSONObject locationJson = new JSONObject(JsonStr);
+        JSONArray locationArray = locationJson.getJSONArray(OWM_RESULTS);
+
+        double[] result = new double[2];
+        JSONObject Object= locationArray.getJSONObject(0);
+        JSONObject geometry = Object.getJSONObject(OWM_GEOMETRY);
+        JSONObject locationObject = geometry.getJSONObject(OWM_LOCATION);
+        result[0]=locationObject.getDouble("lat");
+        result[1]=locationObject.getDouble("lng");
+
+        return result;
+
+    }
+
+    public class FetchLocationTask extends AsyncTask<String,Void,double[]>{
+
+        @Override
+        protected double[] doInBackground(String... strings) {
+            strings[0].replaceAll(" ", "+");
+            strings[0].replaceAll(",", ",+");
+            HttpURLConnection urlConnection = null;
+            BufferedReader reader = null;
+            String JsonStr=null;
+
+            try {
+                final String BASE_ADDR = "https://maps.googleapis.com/maps/api/geocode/json?";
+                final String ADDRESS_PARAM = "address";
+                final String KEY_PARAM = "key";
+                final String KEY_VALUE = "AIzaSyCkmr5QmzIKiLRWalD4M0ngPmPxeOQfFic";
+                Uri builtUri = Uri.parse(BASE_ADDR).buildUpon()
+                        .appendQueryParameter(ADDRESS_PARAM, strings[0])
+                        .appendQueryParameter(KEY_PARAM, KEY_VALUE)
+                        .build();
+
+                URL url = new URL(builtUri.toString());
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                // Read the input stream into a String
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    // Nothing to do.
+                    return null;
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                    // But it does make debugging a *lot* easier if you print out the completed
+                    // buffer for debugging.
+                    buffer.append(line + "\n");
+                }
+
+                if (buffer.length() == 0) {
+                    // Stream was empty.  No point in parsing.
+                    return null;
+                }
+                JsonStr = buffer.toString();
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "Error ", e);
+                // If the code didn't successfully get the weather data, there's no point in attemping
+                // to parse it.
+                return null;
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e(LOG_TAG, "Error closing stream", e);
+                    }
+                }
+            }
+            try {
+                return getLocationDataFromJson(JsonStr);
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, e.getMessage(), e);
+                e.printStackTrace();
+            }
+
+            // This will only happen if there was an error getting or parsing the forecast.
+            return null;
+        }
+        @Override
+        protected void onPostExecute(double[] result) {
+            if (result != null) {
+                LatLng ntu = new LatLng(result[0], result[1]);
+                CameraPosition target = CameraPosition.builder().target(ntu).zoom(14).build();
+                m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
+            }
+        }
+    }
+    @Override
+    public void onMapReady(GoogleMap map){
+        mapReady=true;
+        m_map = map;
+        LatLng ntu = new LatLng(1.3447, 103.6813);
+        CameraPosition target = CameraPosition.builder().target(ntu).zoom(14).build();
+        m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
     }
 }
