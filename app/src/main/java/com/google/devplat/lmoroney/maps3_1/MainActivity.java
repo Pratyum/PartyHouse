@@ -34,27 +34,27 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Parse.enableLocalDatastore(this);
-//        Parse.initialize(this);
-//        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
-//        startActivityForResult(builder.build(), 0);
-//
-//        Party party_data[] = new Party[]
-//                {
-//                        new Party("Party1", "NUS\n9:31pm"),
-//                        new Party("Party2", "NUS\n9:32pm"),
-//                        new Party("Party1", "NUS\n9:31pm"),
-//                        new Party("Party1", "NUS\n9:31pm"),
-//                        new Party("Party1", "NUS\n9:31pm")
-//                };
-//
-//        PartyAdapter adapter = new PartyAdapter(this,
-//                R.layout.main_list, party_data);
-//
-//
-//        ListView listView1 = (ListView)findViewById(R.id.party_listview);
-//
-//        listView1.setAdapter(adapter);
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this);
+        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+        startActivityForResult(builder.build(), 0);
+
+        Party party_data[] = new Party[]
+                {
+                        new Party("Party1", "NUS\n9:31pm"),
+                        new Party("Party2", "NUS\n9:32pm"),
+                        new Party("Party1", "NUS\n9:31pm"),
+                        new Party("Party1", "NUS\n9:31pm"),
+                        new Party("Party1", "NUS\n9:31pm")
+                };
+
+        PartyAdapter adapter = new PartyAdapter(this,
+                R.layout.main_list, party_data);
+
+
+        ListView listView1 = (ListView)findViewById(R.id.party_listview);
+
+        listView1.setAdapter(adapter);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.add_party) {
-            Intent intent = new Intent(this, GuestListActivity.class);
+            Intent intent = new Intent(this, Page2Activity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.log_out) {
@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
             System.exit(0);
             return true;
         }else if (id == R.id.add_friend){
-            Intent intent = new Intent(this, AddFriends.class);
+            Intent intent = new Intent(this, PartySetting.class);
             startActivity(intent);
             return true;
         }

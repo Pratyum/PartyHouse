@@ -1,5 +1,6 @@
 package com.google.devplat.lmoroney.maps3_1;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,9 +13,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -38,64 +39,67 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
-public class Page2Activity extends ActionBarActivity implements OnMapReadyCallback {
+public class PartySetting extends ActionBarActivity implements OnMapReadyCallback {
     private ArrayAdapter<String> mLogsAdapter;
     GoogleMap m_map;
-    boolean mapReady=false;
+    boolean mapReady = false;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
     private final String LOG_TAG = Page2Activity.class.getSimpleName();
+    final Calendar myCalendar = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_page2);
-        String[] LogsArray = {"Pratyum", "Shantanu", "Priyanshu", "Divyansh", "Varun", "Manav"};
-        List<String> Logs = new ArrayList<>(Arrays.asList(LogsArray));
-        mLogsAdapter = new ArrayAdapter<>(this, R.layout.list_logs, R.id.list_logs_textview, Logs);
-        Log.d(LOG_TAG,"Stage 1 Pass:Array Adapter");
-        ListView listView = (ListView) findViewById(R.id.listview_logs);
-        listView.setAdapter(mLogsAdapter);
-        Log.d(LOG_TAG, "Stage 2 Pass: List View Populate");
-        Button submit = (Button) findViewById(R.id.bt_submit);
-        final EditText address_et = (EditText)findViewById(R.id.et_address);
-        submit.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_party_setting);
+
+
+        TextView dateText = (TextView) findViewById(R.id.date_text);
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
             @Override
-            public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(address_et.getWindowToken(), 0);
-                String address = address_et.getText().toString();
-                FetchLocationTask locationTask = new FetchLocationTask();
-                locationTask.execute(address);
-
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
             }
-        });
 
-        //VENUE BUTTON FUNCTIONALITY
+        };
 
-        Button venueButton = (Button) findViewById(R.id.venue_button);
-
-        venueButton.setOnClickListener(new View.OnClickListener() {
+        dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                venueClick(v);
+                new DatePickerDialog(PartySetting.this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
-        venueButton.setOnLongClickListener(new View.OnLongClickListener() {
+        Button showOnMap = (Button) findViewById(R.id.show_on_map);
+        final EditText address = (EditText) findViewById(R.id.address);
+        showOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                venueLongClick(v);
-                return false;
+            public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(address.getWindowToken(), 0);
+                String addressText = address.getText().toString();
+                FetchLocationTask locationTask = new FetchLocationTask();
+                locationTask.execute(addressText);
+
             }
         });
+
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -173,14 +177,13 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
         //Relocate on Map
     }
 
-    void venueLongClick(View view)
-    {
+    void venueLongClick(View view) {
         //Choose location from another activity
     }
 
     private double[] getLocationDataFromJson(String JsonStr)
             throws JSONException {
-        Log.d(LOG_TAG,JsonStr);
+        Log.d(LOG_TAG, JsonStr);
         // These are the names of the JSON objects that need to be extracted.
         final String OWM_RESULTS = "results";
         final String OWM_GEOMETRY = "geometry";
@@ -190,17 +193,17 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
         JSONArray locationArray = locationJson.getJSONArray(OWM_RESULTS);
 
         double[] result = new double[2];
-        JSONObject Object= locationArray.getJSONObject(0);
+        JSONObject Object = locationArray.getJSONObject(0);
         JSONObject geometry = Object.getJSONObject(OWM_GEOMETRY);
         JSONObject locationObject = geometry.getJSONObject(OWM_LOCATION);
-        result[0]=locationObject.getDouble("lat");
-        result[1]=locationObject.getDouble("lng");
+        result[0] = locationObject.getDouble("lat");
+        result[1] = locationObject.getDouble("lng");
 
         return result;
 
     }
 
-    public class FetchLocationTask extends AsyncTask<String,Void,double[]>{
+    public class FetchLocationTask extends AsyncTask<String, Void, double[]> {
 
         @Override
         protected double[] doInBackground(String... strings) {
@@ -208,7 +211,7 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
             strings[0].replaceAll(",", ",+");
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
-            String JsonStr=null;
+            String JsonStr = null;
 
             try {
                 final String BASE_ADDR = "https://maps.googleapis.com/maps/api/geocode/json?";
@@ -274,6 +277,7 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
             // This will only happen if there was an error getting or parsing the forecast.
             return null;
         }
+
         @Override
         protected void onPostExecute(double[] result) {
             if (result != null) {
@@ -282,19 +286,31 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
                 m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
                 MarkerOptions result_marker = new MarkerOptions()
                         .position(ntu)
-                        .title(((EditText) findViewById(R.id.et_address)).getText().toString())
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker));
+                        .title(((EditText) findViewById(R.id.address)).getText().toString())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker));
                 m_map.addMarker(result_marker);
 
             }
         }
     }
+
     @Override
-    public void onMapReady(GoogleMap map){
-        mapReady=true;
+    public void onMapReady(GoogleMap map) {
+        mapReady = true;
         m_map = map;
         LatLng ntu = new LatLng(1.3447, 103.6813);
         CameraPosition target = CameraPosition.builder().target(ntu).zoom(14).build();
         m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
     }
+
+
+    private void updateLabel() {
+        TextView dateText = (TextView) findViewById(R.id.date_text);
+
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        dateText.setText(sdf.format(myCalendar.getTime()));
+    }
+
 }
