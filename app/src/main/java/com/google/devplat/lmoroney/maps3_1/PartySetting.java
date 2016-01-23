@@ -60,7 +60,7 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_party_setting);
 
 
-        TextView dateText = (TextView) findViewById(R.id.date_text);
+        Button dateText = (Button) findViewById(R.id.date_text);
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -305,7 +305,7 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
 
 
     private void updateLabel() {
-        TextView dateText = (TextView) findViewById(R.id.date_text);
+        Button dateText = (Button) findViewById(R.id.date_text);
 
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);

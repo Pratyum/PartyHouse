@@ -1,6 +1,7 @@
 package com.google.devplat.lmoroney.maps3_1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -56,13 +57,15 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page2);
-        String[] LogsArray = {"Pratyum", "Shantanu", "Priyanshu", "Divyansh", "Varun", "Manav"};
-        List<String> Logs = new ArrayList<>(Arrays.asList(LogsArray));
+//        String[] LogsArray = {"Pratyum", "Shantanu", "Priyanshu", "Divyansh", "Varun", "Manav"};
+        Intent intent = getIntent();
+        ArrayList<String> Logs = (ArrayList<String>)intent.getSerializableExtra("KEY");
+//        List<String> Logs = new ArrayList<>(Arrays.asList(LogsArray));
         mLogsAdapter = new ArrayAdapter<>(this, R.layout.list_logs, R.id.list_logs_textview, Logs);
-        Log.d(LOG_TAG,"Stage 1 Pass:Array Adapter");
+
         ListView listView = (ListView) findViewById(R.id.listview_logs);
         listView.setAdapter(mLogsAdapter);
-        Log.d(LOG_TAG, "Stage 2 Pass: List View Populate");
+
         Button submit = (Button) findViewById(R.id.bt_submit);
         final EditText address_et = (EditText)findViewById(R.id.et_address);
         submit.setOnClickListener(new View.OnClickListener() {

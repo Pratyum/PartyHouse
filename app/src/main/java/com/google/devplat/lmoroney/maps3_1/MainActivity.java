@@ -84,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.add_party) {
-            Intent intent = new Intent(this, Page2Activity.class);
+            Intent intent = new Intent(this, GuestListActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.log_out) {
