@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.parse.Parse;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
@@ -40,18 +41,10 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-//        Parse.enableLocalDatastore(this);
-//        Parse.initialize(this);
-//        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
-//        startActivityForResult(builder.build(), 0);
-
-        RelativeLayout r1 = createRelLay("Party1", "NUS\n9:31pm");
-        RelativeLayout r2 = createRelLay("Party2", "NUS\n9:32pm");
-        RelativeLayout r3 = createRelLay("Party3", "NUS\n9:33pm");
-        RelativeLayout r4 = createRelLay("Party4", "NUS\n9:34pm");
-        RelativeLayout r5 = createRelLay("Party5", "NUS\n9:35pm");
-        RelativeLayout r6 = createRelLay("Party6", "NUS\n9:36pm");
-
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this);
+        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+        startActivityForResult(builder.build(), 0);
 
         Party party_data[] = new Party[]
                 {
@@ -110,41 +103,6 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    RelativeLayout createRelLay(String one, String two)
-    {
-        // Definition
-        RelativeLayout l1 = new RelativeLayout(this);
-        TextView t1 = new TextView(this);
-        TextView t2 = new TextView(this);
-
-
-        //Adding content
-        t1.setText(one);
-        t2.setText(two);
-
-
-        //Creating LayoutParams
-        RelativeLayout.LayoutParams t1Details = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
-        );
-
-        RelativeLayout.LayoutParams t2Details = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
-        );
-
-        t1Details.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        t1Details.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        t2Details.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        t2Details.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-
-        //Adding textviews to RelLay
-        l1.addView(t1,t1Details);
-        l1.addView(t2,t2Details);
-        return l1;
     }
 
 }
