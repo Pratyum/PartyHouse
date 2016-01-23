@@ -2,19 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/linear_list">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:id="@+id/guest_listview">
-    </ListView>
+    <!--<ListView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="8"-->
+        <!--android:id="@+id/guest_listview"-->
+        <!--android:choiceMode="multipleChoice"/>-->
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:text="CONFIRM"
         android:onClick="confirm"
         android:id="@+id/confirm_button"
