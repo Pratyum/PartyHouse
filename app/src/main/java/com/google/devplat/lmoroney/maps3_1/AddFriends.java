@@ -44,7 +44,7 @@ public class AddFriends extends ActionBarActivity {
                             if (e == null) {
                                 // The query was successful.
                                 TextView textView = (TextView) findViewById(R.id.tv_username);
-                                textView.setText(objects.get(0).getUsername());
+                                textView.setText((String) objects.get(0).get("name"));
                                 textView.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {

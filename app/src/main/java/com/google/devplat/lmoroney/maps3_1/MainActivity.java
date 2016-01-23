@@ -63,7 +63,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
 
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Hello World", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),PartySetting.class);
+                startActivity(intent);
                 }
         });
 
@@ -96,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.friends) {
-            Intent intent = new Intent(this, GuestListActivity.class); //Show all friends
+            Intent intent = new Intent(this, FriendsList.class); //Show all friends
             startActivity(intent);
             return true;
             } else if (id == R.id.log_out) {

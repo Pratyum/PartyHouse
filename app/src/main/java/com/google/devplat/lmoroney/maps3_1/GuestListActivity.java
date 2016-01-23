@@ -35,9 +35,8 @@ public class GuestListActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_list);
-        Log.e("Party", "Hello");
+
         ParseUser user = ParseUser.getCurrentUser();
-        Log.e("Party",user.toString());
         ArrayList<String> Logs  = (ArrayList<String>) user.get("friends");
 //        String[] ContactsArray = {"Pratyum", "Shantanu", "Priyanshu", "Divyansh", "Varun", "Manav"};
 

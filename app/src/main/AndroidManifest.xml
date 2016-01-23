@@ -54,10 +54,13 @@
             android:label="@string/title_activity_add_friends" />
         <activity
             android:name=".GuestListActivity"
-            android:label="@string/title_activity_guest_list"></activity>
+            android:label="@string/title_activity_guest_list" />
         <activity
             android:name=".PartySetting"
-            android:label="@string/title_activity_party_setting"></activity>
+            android:label="@string/title_activity_party_setting" />
+        <activity
+            android:name=".FriendsList"
+            android:label="@string/title_activity_friends_list"></activity>
     </application>
 
 </manifest>

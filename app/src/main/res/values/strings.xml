@@ -9,5 +9,6 @@
     <string name="title_activity_select_friends">SelectFriends</string>
     <string name="title_activity_guest_list">GuestListActivity</string>
     <string name="title_activity_party_setting">PartySetting</string>
+    <string name="title_activity_friends_list">FriendsList</string>
 
 </resources>
