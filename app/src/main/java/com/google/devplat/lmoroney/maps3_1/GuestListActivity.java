@@ -1,10 +1,15 @@
 package com.google.devplat.lmoroney.maps3_1;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -13,6 +18,9 @@ import java.util.List;
 
 public class GuestListActivity extends ActionBarActivity {
     private ArrayAdapter<String> mContactsAdapter;
+    public  ListView listView;
+    private final String LOG_TAG = GuestListActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,13 +30,14 @@ public class GuestListActivity extends ActionBarActivity {
 
         List<String> Logs = new ArrayList<>(Arrays.asList(ContactsArray));
 
+       // ArrayList<String> Logs = getIntent().getSerializableExtra("KEY");
 
         mContactsAdapter = new ArrayAdapter<>(this, R.layout.checkboxlist, R.id.friend_checkbox, Logs);
 
-        ListView listView = (ListView) findViewById(R.id.guest_listview);
+        listView = (ListView) findViewById(R.id.guest_listview);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         listView.setAdapter(mContactsAdapter);
-
     }
 
     @Override
@@ -52,4 +61,35 @@ public class GuestListActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void confirm(View view)
+    {
+        SparseBooleanArray checked = listView.getCheckedItemPositions();
+        Log.d(LOG_TAG,checked.toString());
+        ArrayList<String> finalArray = new ArrayList<>();
+//        if (checked != null) {
+//            for (int i=0; i<checked.size(); i++) {
+//                if (checked.valueAt(i)) {
+//                    String item = listView.getAdapter().getItem(
+//                            checked.keyAt(i)).toString();
+//                    Log.d(LOG_TAG, item + " was selected");
+//                    finalArray.add(mContactsAdapter.getItem(i));
+//                }
+//            }
+//        }
+        if(checked!=null) {
+            for (int i = 0; i < mContactsAdapter.getCount(); i++) {
+                if (checked.get(i)) {
+                    finalArray.add(mContactsAdapter.getItem(i));
+                    Log.d(LOG_TAG, mContactsAdapter.getItem(i));
+                }
+            }
+        }
+        Intent intent = new Intent(this,Page2Activity.class);
+        intent.putExtra("KEY",finalArray);
+        startActivity(intent);
+
+
+    }
+
 }

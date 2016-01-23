@@ -1,6 +1,7 @@
 package com.google.devplat.lmoroney.maps3_1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -54,9 +55,12 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page2);
-        String[] LogsArray = {"Pratyum", "Shantanu", "Priyanshu", "Divyansh", "Varun", "Manav"};
+//        String[] LogsArray = {"Pratyum", "Shantanu", "Priyanshu", "Divyansh", "Varun", "Manav"};
 
-        List<String> Logs = new ArrayList<>(Arrays.asList(LogsArray));
+        Intent intent = getIntent();
+        ArrayList<String> Logs = (ArrayList<String>)intent.getSerializableExtra("KEY");
+
+       // List<String> Logs = new ArrayList<>(Arrays.asList(LogsArray));
 
 
         mLogsAdapter = new ArrayAdapter<>(this, R.layout.list_logs, R.id.list_logs_textview, Logs);
