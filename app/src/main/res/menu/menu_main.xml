@@ -5,7 +5,6 @@
 
     <item
         android:id="@+id/add_party"
-        android:onClick=""
         android:orderInCategory="100"
         android:title="add_party"
         app:showAsAction="never" />
