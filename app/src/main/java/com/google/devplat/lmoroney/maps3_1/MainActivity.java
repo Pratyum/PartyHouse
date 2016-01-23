@@ -21,6 +21,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -33,7 +34,6 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
-    private ArrayAdapter<RelativeLayout> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,20 +52,23 @@ public class MainActivity extends ActionBarActivity {
         RelativeLayout r5 = createRelLay("Party5", "NUS\n9:35pm");
         RelativeLayout r6 = createRelLay("Party6", "NUS\n9:36pm");
 
-        ArrayList<RelativeLayout> mLogs = new ArrayList<RelativeLayout>();
-        mLogs.add(r1);
-        mLogs.add(r2);
-        mLogs.add(r3);
-        mLogs.add(r4);
-        mLogs.add(r5);
-        mLogs.add(r6);
+
+        Party party_data[] = new Party[]
+                {
+                        new Party("Party1", "NUS\n9:31pm"),
+                        new Party("Party2", "NUS\n9:32pm"),
+                        new Party("Party1", "NUS\n9:31pm"),
+                        new Party("Party1", "NUS\n9:31pm"),
+                        new Party("Party1", "NUS\n9:31pm")
+                };
+
+        PartyAdapter adapter = new PartyAdapter(this,
+                R.layout.main_list, party_data);
 
 
-        mAdapter = new ArrayAdapter<RelativeLayout>(this, R.layout.main_list, mLogs);
+        ListView listView1 = (ListView)findViewById(R.id.party_listview);
 
-        ListView listView = (ListView) findViewById(R.id.party_listview);
-
-        listView.setAdapter(mAdapter);
+        listView1.setAdapter(adapter);
     }
 
     @Override
