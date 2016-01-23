@@ -29,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.Parse;
+import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
 
@@ -102,6 +103,12 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.add_party) {
+            return true;
+        }
+        else if (id == R.id.log_out){
+            ParseUser.logOut();
+            ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+            startActivityForResult(builder.build(), 0);
             return true;
         }
         return super.onOptionsItemSelected(item);

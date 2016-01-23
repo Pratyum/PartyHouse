@@ -8,4 +8,11 @@
         android:orderInCategory="100"
         android:title="add_party"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/log_out"
+        android:orderInCategory="100"
+        android:title="Log Out"
+        app:showAsAction="never" />
+
+
 </menu>
