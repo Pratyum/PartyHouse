@@ -22,6 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,13 +43,11 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this);
         Button btnMap = (Button) findViewById(R.id.btnMap);
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mapReady)
+                if (mapReady)
                     m_map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             }
         });
@@ -69,6 +69,14 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
                     m_map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             }
         });
+
+        Parse.enableLocalDatastore(this);
+
+        Parse.initialize(this);
+
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
