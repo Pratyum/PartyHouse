@@ -77,7 +77,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap map){
         mapReady=true;
         m_map = map;
-        LatLng ntu = new LatLng(1.3447, 103.6814);
+        LatLng ntu = new LatLng(1.3447, 103.6813);
         CameraPosition target = CameraPosition.builder().target(ntu).zoom(14).build();
         m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
 
