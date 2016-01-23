@@ -1,12 +1,18 @@
 package com.google.devplat.lmoroney.maps3_1;
 
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
+import java.io.BufferedReader;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +34,20 @@ public class Page2Activity extends ActionBarActivity {
         ListView listView= (ListView)findViewById(R.id.listview_logs);
 
         listView.setAdapter(mLogsAdapter);
+
+        Button submit = (Button) findViewById(R.id.bt_submit);
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText address = (EditText) findViewById(R.id.et_address);
+                String address_string = address.getText().toString();
+                address_string.replaceAll(" ","+");
+                address_string.replaceAll(",",",+");
+                HttpURLConnection urlConnection = null;
+
+            }
+        });
     }
 
     @Override

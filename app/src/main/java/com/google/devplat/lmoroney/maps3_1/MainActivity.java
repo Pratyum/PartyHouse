@@ -15,6 +15,7 @@
  */
 package com.google.devplat.lmoroney.maps3_1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -73,6 +74,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             }
         });
 
+
+
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
@@ -103,6 +106,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.add_party) {
+            Intent intent = new Intent(this, Page2Activity.class);
+            startActivity(intent);
             return true;
         }
         else if (id == R.id.log_out){
@@ -113,4 +118,5 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
