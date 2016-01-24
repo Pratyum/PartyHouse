@@ -45,12 +45,13 @@
             android:id="@+id/date_text"
             android:hint="Date"/>
 
-        <EditText
+        <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="30sp"
-            android:id="@+id/time"/>
+            android:id="@+id/time_text"
+            android:hint="Time"/>
 
     </LinearLayout>
 </LinearLayout>

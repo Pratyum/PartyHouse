@@ -1,6 +1,7 @@
 package com.google.devplat.lmoroney.maps3_1;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,7 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -65,6 +66,7 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
 
 
         Button dateText = (Button) findViewById(R.id.date_text);
+        Button timeText = (Button) findViewById(R.id.time_text);
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -88,6 +90,25 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
             }
         });
 
+        //////
+        final TimePickerDialog.OnTimeSetListener t =new TimePickerDialog.OnTimeSetListener() {
+            public void onTimeSet(TimePicker view, int hourOfDay,
+                                  int minute) {
+                myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                myCalendar.set(Calendar.MINUTE, minute);
+                updateLabel();
+            }
+        };
+
+        timeText.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new TimePickerDialog(PartySetting.this,
+                        t,
+                        myCalendar.get(Calendar.HOUR_OF_DAY),
+                        myCalendar.get(Calendar.MINUTE),
+                        true).show();
+            }
+        });
         Button showOnMap = (Button) findViewById(R.id.show_on_map);
         final EditText address = (EditText) findViewById(R.id.address);
         showOnMap.setOnClickListener(new View.OnClickListener() {
@@ -102,9 +123,6 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
 
             }
         });
-
-
-
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -314,10 +332,14 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
 
     private void updateLabel() {
         Button dateText = (Button) findViewById(R.id.date_text);
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "dd/MM/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         dateText.setText(sdf.format(myCalendar.getTime()));
         //  TODO              party.put("Date",);
+        Button timeText = (Button) findViewById(R.id.time_text);
+        myFormat = "HH:mm";
+        sdf = new SimpleDateFormat(myFormat, Locale.US);
+        timeText.setText(sdf.format(myCalendar.getTime()));
     }
 
     public void saveParty(){
