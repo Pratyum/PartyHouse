@@ -23,9 +23,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -45,13 +45,13 @@ public class MainActivity extends ActionBarActivity {
         ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
         startActivityForResult(builder.build(), 0);
 
-        Party party_data[] = new Party[]
+        final Party party_data[] = new Party[]
                 {
-                        new Party("Party1", "NUS\n9:31pm"),
-                        new Party("Party2", "NUS\n9:32pm"),
-                        new Party("Party1", "NUS\n9:31pm"),
-                        new Party("Party1", "NUS\n9:31pm"),
-                        new Party("Party1", "NUS\n9:31pm")
+                        new Party("Halloween Party", "universal studios\n11/02/16 17:47"),
+                        new Party("Batch of '96 Reunion", "jurong west, Singapore\n04/02/16 19:30"),
+                        new Party("Happy Holiday", "singapore 637658\n05/02/16 16:20"),
+                        new Party("Bachelor times", "ion orchard\n 24/02/16 04:20"),
+                        new Party("Birthday Girls", "jurong point, singapore\n25/03/16 02:50")
                 };
 
         PartyAdapter adapter = new PartyAdapter(this,
@@ -60,7 +60,34 @@ public class MainActivity extends ActionBarActivity {
 
         ListView listView1 = (ListView)findViewById(R.id.party_listview);
         listView1.setAdapter(adapter);
+        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        Intent intent = new Intent(getApplicationContext(),Halloween_activity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        setContentView(R.layout.reunion);
+                        break;
+                    case 2:
+                        setContentView(R.layout.holiday);
+                        break;
+                    case 3:
+                        setContentView(R.layout.bachelor);
+                        break;
+                    case 4:
+                        setContentView(R.layout.birthday);
+                        break;
+                    default:
+                        setContentView(R.layout.activity_halloween_activity);
+                        break;
 
+
+                }
+            }
+        });
         ImageButton FAB = (ImageButton) findViewById(R.id.imageButton);
         FAB.setOnClickListener(new View.OnClickListener() {
             @Override

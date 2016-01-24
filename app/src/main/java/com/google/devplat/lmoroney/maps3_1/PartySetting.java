@@ -44,10 +44,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class PartySetting extends ActionBarActivity implements OnMapReadyCallback {
@@ -66,7 +64,6 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_setting);
-
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -156,11 +153,11 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
         if (id == R.id.next_button) {
             saveParty();
             return true;
-            }
-        else if(id==android.R.id.home){
+            }else if(id==android.R.id.home){
             this.finish();
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -320,7 +317,7 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
                 MarkerOptions result_marker = new MarkerOptions()
                         .position(ntu)
                         .title(((EditText) findViewById(R.id.address)).getText().toString())
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker));
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.flag_finish));
                 m_map.addMarker(result_marker);
                 party.put("Name", ((EditText)findViewById(R.id.et_party_name)).getText().toString());
                 party.put("Venue", new ParseGeoPoint(result[0],result[1]));
@@ -348,7 +345,7 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
         myFormat = "HH:mm";
         sdf = new SimpleDateFormat(myFormat, Locale.US);
         timeText.setText(sdf.format(myCalendar.getTime()));
-        String dateinText=dateText.getText().toString()+" "+timeText.getText().toString();
+        String dateinText= dateText.getText().toString()+" "+timeText.getText().toString();
         Log.d("party", dateinText);
         party.put("Date", dateinText);
 
@@ -357,7 +354,7 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
 
     public void saveParty(){
         party.put("admin", ParseUser.getCurrentUser().get("name"));
-        party.put("VenueDetail",((EditText)findViewById(R.id.address)).getText().toString());
+        party.put("VenueDetail", ((EditText)findViewById(R.id.address)).getText().toString());
         party.saveInBackground();
         Log.d("Party", "saved");
         Intent intent = new Intent(getApplicationContext(),GuestListActivity.class);

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Maps3_1</string>
+    <string name="app_name">Party House</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_page2">Page2Activity</string>
-    <string name="title_activity_add_friends">AddFriends</string>
-    <string name="title_activity_select_friends">SelectFriends</string>
-    <string name="title_activity_guest_list">GuestListActivity</string>
-    <string name="title_activity_party_setting">PartySetting</string>
-    <string name="title_activity_friends_list">FriendsList</string>
+    <string name="title_activity_page2">Pratyums Birthday</string>
+    <string name="title_activity_add_friends">Add Friends</string>
+    <string name="title_activity_select_friends">Select Friends</string>
+    <string name="title_activity_guest_list">Guest List</string>
+    <string name="title_activity_party_setting">Party Creation</string>
+    <string name="title_activity_friends_list">Friend List</string>
+    <string name="title_activity_halloween_activity">Halloween Party</string>
 
 </resources>

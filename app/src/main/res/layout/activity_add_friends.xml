@@ -24,7 +24,8 @@
         android:text="search"
         android:layout_alignBottom="@+id/et_username"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="@drawable/button_text_color"/>
 
     <!--<ListView-->
         <!--android:id="@+id/listview_friends"-->

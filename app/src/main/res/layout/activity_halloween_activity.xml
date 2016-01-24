@@ -39,16 +39,16 @@
         android:layout_weight="5" />
 
     <!--<EditText-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/et_address"-->
-        <!--android:hint="Enter Address "-->
-        <!--android:singleLine="true"/>-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/et_address"-->
+    <!--android:hint="Enter Address "-->
+    <!--android:singleLine="true"/>-->
     <!--<Button-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Submit"-->
-        <!--android:id="@+id/bt_submit"/>-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Submit"-->
+    <!--android:id="@+id/bt_submit"/>-->
     <ListView
         android:id="@+id/listview_logs"
         android:layout_width="match_parent"

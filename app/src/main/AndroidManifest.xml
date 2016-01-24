@@ -31,6 +31,9 @@
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
                 android:value="true" />
+            <meta-data
+                android:name="com.parse.ui.ParseLoginActivity.APP_LOGO"
+                android:resource="@drawable/logo" />
         </activity>
 
         <meta-data
@@ -48,7 +51,7 @@
 
         <activity
             android:name=".Page2Activity"
-            android:label="@string/title_activity_page2" />
+            android:label="Pratyum&apos;s Birthday" />
         <activity
             android:name=".AddFriends"
             android:label="@string/title_activity_add_friends" />
@@ -60,7 +63,10 @@
             android:label="@string/title_activity_party_setting" />
         <activity
             android:name=".FriendsList"
-            android:label="@string/title_activity_friends_list"></activity>
+            android:label="@string/title_activity_friends_list" />
+        <activity
+            android:name=".Halloween_activity"
+            android:label="@string/title_activity_halloween_activity"></activity>
     </application>
 
 </manifest>

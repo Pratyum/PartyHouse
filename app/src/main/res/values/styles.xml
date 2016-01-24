@@ -11,6 +11,6 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">#0D47A1</item>
         <item name="colorButtonNormal">#42A5F5</item>
-        <item name="android:textColorPrimary">#FFFFFF</item>
+
     </style>
 </resources>

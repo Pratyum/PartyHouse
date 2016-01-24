@@ -1,27 +1,22 @@
 package com.google.devplat.lmoroney.maps3_1;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GuestListActivity extends ActionBarActivity {
@@ -141,8 +136,7 @@ public class GuestListActivity extends ActionBarActivity {
                 }
             });
             return true;
-            }
-        else if(id==android.R.id.home){
+            }else if(id==android.R.id.home){
             this.finish();
             return true;
         }
