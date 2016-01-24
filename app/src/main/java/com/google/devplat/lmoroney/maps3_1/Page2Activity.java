@@ -20,6 +20,7 @@ import android.widget.ListView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -52,7 +54,6 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
     private ArrayAdapter<String> mLogsAdapter;
     GoogleMap m_map;
     boolean mapReady=false;
-    ParseObject object;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -89,52 +90,68 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
 
         //VENUE BUTTON FUNCTIONALITY
         String partyName = getIntent().getStringExtra("Party");
+        String venueDetails="",dates="";
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Party");
+        Log.d("party", partyName);
+
         query.whereEqualTo("Name", partyName);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, com.parse.ParseException e) {
                 if (e == null) {
-                    Log.d("party",String.valueOf(objects.size()));
-                    object = objects.get(0);
+//                    Log.d("party", String.valueOf(objects.size()));
+                    ParseGeoPoint geoPoint = (ParseGeoPoint) objects.get(0).get("Venue");
+                    LatLng coord = new LatLng(geoPoint.getLatitude(),geoPoint.getLongitude());
+                    CameraPosition target = CameraPosition.builder().target(coord).zoom(14).build();
+                    m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
+                    MarkerOptions result_marker = new MarkerOptions()
+                            .position(coord)
+                            .title(objects.get(0).get("VenueDetail").toString())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker));
+                    m_map.addMarker(result_marker);
+                    Button venueButton = (Button) findViewById(R.id.venue_button);
+                    venueButton.setText(objects.get(0).get("VenueDetail").toString());
+                    Log.d("party",objects.get(0).get("VenueDetail").toString());
+                    Log.d("party", objects.get(0).get("Date").toString());
+                    venueButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            venueClick(v);
+                        }
+                    });
+                    venueButton.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            venueLongClick(v);
+                            return false;
+                        }
+                    });
+
+                    Button timeButton = (Button) findViewById(R.id.time_button);
+                    timeButton.setText(objects.get(0).get("Date").toString());
+                    timeButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            timeClick(v);
+                        }
+                    });
+                    timeButton.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            timeLongClick(v);
+                            return false;
+                        }
+                    });
+//                    FetchLocationTask locationTask = new FetchLocationTask();
+//                    locationTask.execute(objects.get(0).get("VenueDetails").toString());
                 } else {
                     Log.d("score", "Error: " + e.getMessage());
                 }
             }
         });
-        Button venueButton = (Button) findViewById(R.id.venue_button);
-        venueButton.setText(object.get("VenueDetail").toString());
-        venueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                venueClick(v);
-            }
-        });
-        venueButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                venueLongClick(v);
-                return false;
-            }
-        });
 
-        Button timeButton = (Button) findViewById(R.id.time_button);
-        timeButton.setText(object.get("Date").toString());
-        timeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timeClick(v);
-            }
-        });
-        timeButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                timeLongClick(v);
-                return false;
-            }
-        });
-        FetchLocationTask locationTask = new FetchLocationTask();
-                locationTask.execute(object.get("VenueDetails").toString());
+                    FetchLocationTask locationTask = new FetchLocationTask();
+                    locationTask.execute(venueDetails);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();

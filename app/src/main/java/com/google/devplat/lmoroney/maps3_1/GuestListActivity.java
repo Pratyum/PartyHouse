@@ -116,8 +116,6 @@ public class GuestListActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.next_button) {
-            Log.d("Party", "Confirm Pressed");
-            Log.d("Party",String.valueOf(finalArray.size()));
             String partyName = getIntent().getStringExtra("Party");
 //            Log.d("Party",partyName);
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Party");
@@ -126,9 +124,6 @@ public class GuestListActivity extends ActionBarActivity {
                 @Override
                 public void done(List<ParseObject> objects, com.parse.ParseException e) {
                     if (e == null) {
-                        Log.d("Party", "Confirm Pressed");
-                        String[] finalParse = new String[finalArray.size()];
-                        finalParse = finalArray.toArray(finalParse);
                         objects.get(0).put("Members", finalArray);
                         objects.get(0).saveInBackground();
                         String partyname = getIntent().getStringExtra("Party");
