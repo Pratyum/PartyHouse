@@ -35,7 +35,6 @@ public class GuestListActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_list);
-
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList<String> Logs  = (ArrayList<String>) user.get("friends");
 //        String[] ContactsArray = {"Pratyum", "Shantanu", "Priyanshu", "Divyansh", "Varun", "Manav"};
@@ -85,27 +84,27 @@ public class GuestListActivity extends ActionBarActivity {
 
     public void confirm(View view)
     {
-        Log.d("Party", "Confirm Pressed");
-        String partyName = getIntent().getStringExtra("Party");
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Party");
-        query.whereEqualTo("Name", partyName);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, com.parse.ParseException e) {
-                if (e == null) {
-                    Log.d("Party", "Confirm Pressed");
-                    String[] finalParse = new String[finalArray.size()];
-                    finalParse = finalArray.toArray(finalParse);
-                    objects.get(0).put("Members", finalArray);
-                    objects.get(0).saveInBackground();
-                    Intent intent = new Intent(getApplicationContext(), Page2Activity.class);
-                    intent.putExtra("KEY", finalArray);
-                    startActivity(intent);
-                } else {
-                    Log.d("score", "Error: " + e.getMessage());
-                }
-            }
-        });
+//        Log.d("Party", "Confirm Pressed");
+//        String partyName = getIntent().getStringExtra("Party");
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Party");
+//        query.whereEqualTo("Name", partyName);
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            @Override
+//            public void done(List<ParseObject> objects, com.parse.ParseException e) {
+//                if (e == null) {
+//                    Log.d("Party", "Confirm Pressed");
+//                    String[] finalParse = new String[finalArray.size()];
+//                    finalParse = finalArray.toArray(finalParse);
+//                    objects.get(0).put("Members", finalArray);
+//                    objects.get(0).saveInBackground();
+//                    Intent intent = new Intent(getApplicationContext(), Page2Activity.class);
+//                    intent.putExtra("KEY", finalArray);
+//                    startActivity(intent);
+//                } else {
+//                    Log.d("score", "Error: " + e.getMessage());
+//                }
+//            }
+//        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,8 +116,27 @@ public class GuestListActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.next_button) {
-            Intent intent = new Intent(this, Page2Activity.class); //Show all friends
-            startActivity(intent);
+            Log.d("Party", "Confirm Pressed");
+            String partyName = getIntent().getStringExtra("Party");
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Party");
+            query.whereEqualTo("Name", partyName);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, com.parse.ParseException e) {
+                    if (e == null) {
+                        Log.d("Party", "Confirm Pressed");
+                        String[] finalParse = new String[finalArray.size()];
+                        finalParse = finalArray.toArray(finalParse);
+                        objects.get(0).put("Members", finalArray);
+                        objects.get(0).saveInBackground();
+                        Intent intent = new Intent(getApplicationContext(), Page2Activity.class);
+                        intent.putExtra("KEY", finalArray);
+                        startActivity(intent);
+                    } else {
+                        Log.d("score", "Error: " + e.getMessage());
+                    }
+                }
+            });
             return true;
             }
         // other menu select events may be present here
