@@ -28,6 +28,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +43,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +52,7 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
     private ArrayAdapter<String> mLogsAdapter;
     GoogleMap m_map;
     boolean mapReady=false;
+    ParseObject object;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -66,32 +72,44 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
         ListView listView = (ListView) findViewById(R.id.listview_logs);
         listView.setAdapter(mLogsAdapter);
 
-        Button submit = (Button) findViewById(R.id.bt_submit);
-        final EditText address_et = (EditText)findViewById(R.id.et_address);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(address_et.getWindowToken(), 0);
-                String address = address_et.getText().toString();
-                FetchLocationTask locationTask = new FetchLocationTask();
-                locationTask.execute(address);
-
-            }
-        });
+//        Button submit = (Button) findViewById(R.id.bt_submit);
+//        final EditText address_et = (EditText)findViewById(R.id.et_address);
+//        submit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                InputMethodManager imm = (InputMethodManager)getSystemService(
+//                        Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(address_et.getWindowToken(), 0);
+//                String address = address_et.getText().toString();
+//                FetchLocationTask locationTask = new FetchLocationTask();
+//                locationTask.execute(address);
+//
+//            }
+//        });
 
         //VENUE BUTTON FUNCTIONALITY
-
+        String partyName = getIntent().getStringExtra("Party");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Party");
+        query.whereEqualTo("Name", partyName);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, com.parse.ParseException e) {
+                if (e == null) {
+                    Log.d("party",String.valueOf(objects.size()));
+                    object = objects.get(0);
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
         Button venueButton = (Button) findViewById(R.id.venue_button);
-
+        venueButton.setText(object.get("VenueDetail").toString());
         venueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 venueClick(v);
             }
         });
-
         venueButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -100,6 +118,23 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
             }
         });
 
+        Button timeButton = (Button) findViewById(R.id.time_button);
+        timeButton.setText(object.get("Date").toString());
+        timeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timeClick(v);
+            }
+        });
+        timeButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                timeLongClick(v);
+                return false;
+            }
+        });
+        FetchLocationTask locationTask = new FetchLocationTask();
+                locationTask.execute(object.get("VenueDetails").toString());
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -108,10 +143,16 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
         mapFragment.getMapAsync(this);
     }
 
+    private void timeLongClick(View v) {
+    }
+
+    private void timeClick(View v) {
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_page, menu);
 
         return true;
     }
@@ -124,7 +165,7 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.friends) {
+        if (id == R.id.invite_friend) {
             return true;
             }
 
@@ -285,7 +326,7 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
                 m_map.moveCamera(CameraUpdateFactory.newCameraPosition(target));
                 MarkerOptions result_marker = new MarkerOptions()
                         .position(ntu)
-                        .title(((EditText) findViewById(R.id.et_address)).getText().toString())
+                        .title(((EditText) findViewById(R.id.address)).getText().toString())
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker));
                 m_map.addMarker(result_marker);
 

@@ -60,13 +60,13 @@ public class GuestListActivity extends ActionBarActivity {
             linearList.addView(checkBox);
         }
 
-        final Button confirm = (Button) findViewById(R.id.confirm_button);
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                confirm(view);
-            }
-        });
+//        final Button confirm = (Button) findViewById(R.id.next_button);
+//        confirm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                confirm(view);
+//            }
+//        });
     }
     View.OnClickListener getOnClickDo(final Button b)
     {
@@ -82,8 +82,8 @@ public class GuestListActivity extends ActionBarActivity {
         };
     }
 
-    public void confirm(View view)
-    {
+//    public void confirm(View view)
+//    {
 //        Log.d("Party", "Confirm Pressed");
 //        String partyName = getIntent().getStringExtra("Party");
 //        ParseQuery<ParseObject> query = ParseQuery.getQuery("Party");
@@ -105,7 +105,7 @@ public class GuestListActivity extends ActionBarActivity {
 //                }
 //            }
 //        });
-    }
+//    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -117,7 +117,9 @@ public class GuestListActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.next_button) {
             Log.d("Party", "Confirm Pressed");
+            Log.d("Party",String.valueOf(finalArray.size()));
             String partyName = getIntent().getStringExtra("Party");
+//            Log.d("Party",partyName);
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Party");
             query.whereEqualTo("Name", partyName);
             query.findInBackground(new FindCallback<ParseObject>() {
@@ -129,8 +131,11 @@ public class GuestListActivity extends ActionBarActivity {
                         finalParse = finalArray.toArray(finalParse);
                         objects.get(0).put("Members", finalArray);
                         objects.get(0).saveInBackground();
+                        String partyname = getIntent().getStringExtra("Party");
                         Intent intent = new Intent(getApplicationContext(), Page2Activity.class);
                         intent.putExtra("KEY", finalArray);
+                        intent.putExtra("Party",partyname);
+
                         startActivity(intent);
                     } else {
                         Log.d("score", "Error: " + e.getMessage());

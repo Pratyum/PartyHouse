@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:hint="Name of the Party"
         android:textSize="30sp"
-        android:id="@+id/et_party_name"/>
+        android:id="@+id/et_party_name"
+        android:singleLine="true"/>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
@@ -24,7 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter Address "
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:singleLine="true" />
 
     <Button
         android:id="@+id/show_on_map"

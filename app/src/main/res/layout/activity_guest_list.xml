@@ -12,13 +12,13 @@
         <!--android:id="@+id/guest_listview"-->
         <!--android:choiceMode="multipleChoice"/>-->
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="CONFIRM"
-        android:id="@+id/confirm_button"
-        />
+    <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:text="CONFIRM"-->
+        <!--android:id="@+id/confirm_button"-->
+        <!--/>-->
 
 
 </LinearLayout>

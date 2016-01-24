@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,8 +44,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class PartySetting extends ActionBarActivity implements OnMapReadyCallback {
@@ -149,8 +152,7 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.next_button) {
-            Intent intent = new Intent(this, GuestListActivity.class); //Show all friends
-            startActivity(intent);
+            saveParty();
             return true;
             }
 
@@ -335,15 +337,23 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
         String myFormat = "dd/MM/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         dateText.setText(sdf.format(myCalendar.getTime()));
-        //  TODO              party.put("Date",);
+
         Button timeText = (Button) findViewById(R.id.time_text);
         myFormat = "HH:mm";
         sdf = new SimpleDateFormat(myFormat, Locale.US);
         timeText.setText(sdf.format(myCalendar.getTime()));
+        String dateinText=dateText.getText().toString()+" "+timeText.getText().toString();
+        Log.d("party", dateinText);
+        party.put("Date", dateinText);
+
+
     }
 
     public void saveParty(){
+        party.put("admin", ParseUser.getCurrentUser().get("name"));
+        party.put("VenueDetail",((EditText)findViewById(R.id.address)).getText().toString());
         party.saveInBackground();
+        Log.d("Party", "saved");
         Intent intent = new Intent(getApplicationContext(),GuestListActivity.class);
         intent.putExtra("Party", ((EditText) findViewById(R.id.et_party_name)).getText().toString());
         startActivity(intent);
