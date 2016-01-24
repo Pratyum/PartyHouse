@@ -158,6 +158,14 @@ public class Page2Activity extends ActionBarActivity implements OnMapReadyCallba
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        final int abTitleId = getResources().getIdentifier("action_bar_title", "id", "android");
+        findViewById(abTitleId).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.d("LOG_TAG","inside on click........");
+            }
+        });
     }
 
     private void timeLongClick(View v) {

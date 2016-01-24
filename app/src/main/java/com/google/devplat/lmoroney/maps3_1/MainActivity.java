@@ -15,6 +15,7 @@
  */
 package com.google.devplat.lmoroney.maps3_1;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -37,6 +38,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
         ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
@@ -110,8 +113,13 @@ public class MainActivity extends ActionBarActivity {
             }else if (id == R.id.invite_friend){ //Add functionality for user not present.
             Intent intent = new Intent(this, AddFriends.class);
             startActivity(intent);
+
             return true;
             }
+        else if(id==android.R.id.home){
+            this.finish();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

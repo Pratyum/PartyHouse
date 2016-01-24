@@ -35,6 +35,8 @@ public class GuestListActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_list);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         ParseUser user = ParseUser.getCurrentUser();
         ArrayList<String> Logs  = (ArrayList<String>) user.get("friends");
 //        String[] ContactsArray = {"Pratyum", "Shantanu", "Priyanshu", "Divyansh", "Varun", "Manav"};
@@ -115,6 +117,7 @@ public class GuestListActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
         if (item.getItemId() == R.id.next_button) {
             String partyName = getIntent().getStringExtra("Party");
 //            Log.d("Party",partyName);
@@ -139,6 +142,10 @@ public class GuestListActivity extends ActionBarActivity {
             });
             return true;
             }
+        else if(id==android.R.id.home){
+            this.finish();
+            return true;
+        }
         // other menu select events may be present here
 
         return super.onOptionsItemSelected(item);

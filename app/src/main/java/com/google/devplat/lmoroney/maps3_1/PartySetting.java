@@ -67,6 +67,8 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_setting);
 
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Button dateText = (Button) findViewById(R.id.date_text);
         Button timeText = (Button) findViewById(R.id.time_text);
@@ -155,6 +157,10 @@ public class PartySetting extends ActionBarActivity implements OnMapReadyCallbac
             saveParty();
             return true;
             }
+        else if(id==android.R.id.home){
+            this.finish();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

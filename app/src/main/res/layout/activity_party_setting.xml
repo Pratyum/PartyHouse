@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Name of the Party"
         android:textSize="30sp"
+        android:background="#90CAF9"
         android:id="@+id/et_party_name"
         android:singleLine="true"/>
 
@@ -25,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter Address "
+        android:background="#90CAF9"
         android:textSize="30sp"
         android:singleLine="true" />
 
@@ -32,20 +36,24 @@
         android:id="@+id/show_on_map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="30sp"
         android:text="Show on Map" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <Button
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="30sp"
             android:id="@+id/date_text"
-            android:hint="Date"/>
+            android:text="Date"
+            android:textColor="@drawable/button_text_color"/>
 
         <Button
             android:layout_width="0dp"
@@ -53,7 +61,8 @@
             android:layout_weight="1"
             android:textSize="30sp"
             android:id="@+id/time_text"
-            android:hint="Time"/>
+            android:text="Time"
+            android:textColor="@drawable/button_text_color"/>
 
     </LinearLayout>
 </LinearLayout>
